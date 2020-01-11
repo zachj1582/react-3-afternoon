@@ -18,6 +18,17 @@ class App extends Component {
     this.deletePost = this.deletePost.bind( this );
     this.createPost = this.createPost.bind( this );
   }
+
+  handleSearch = (text) => {
+    text=encodeURI(text)
+    axios.get(`https://practiceapi.devmountain.com/api/posts/filter?text=${text}`)
+    .then(res => {
+      this.setState({posts: res.data})
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
   
   componentDidMount() {
     axios.get('https://practiceapi.devmountain.com/api/posts')
@@ -61,7 +72,7 @@ class App extends Component {
 
     return (
       <div className="App__parent">
-        <Header />
+        <Header handleSearchFn={this.handleSearch}/>
 
         <section className="App__content">
 
